@@ -11,6 +11,14 @@ JASPER = [
 
 class App < Sinatra::Base
 
+  before do
+    @user = "Chris"
+  end
+
+  before /images/ do
+    @message = "Jasper is pretty"
+  end
+
   get '/images' do
     @images = JASPER
     erb :images, layout: true
@@ -23,7 +31,7 @@ class App < Sinatra::Base
   end
 
   get '/' do
-    "Hello World"
+    erb :home, layout: true
   end
 
   post '/' do
