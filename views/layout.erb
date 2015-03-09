@@ -5,6 +5,10 @@
     <title>Exhibit</title>
   </head>
   <body>
+    <% if @message %>
+      <h1><%= @message %></h1>
+    <% end %>
+    <p> The current users is <%= @user %> </p>
     <%= yield %>
   </body>
 </html>
