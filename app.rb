@@ -1,22 +1,33 @@
 require "sinatra"
 require "byebug"
 require "awesome_print"
+require "json"
 
 
 JASPER = [
+  { title: "background-image", url: "https://igcdn-photos-h-a.akamaihd.net/hphotos-ak-xaf1/t51.2885-15/11055462_513059302165903_1753383686_n.jpg"},
   { title: "boxes", url: "https://igcdn-photos-h-a.akamaihd.net/hphotos-ak-xaf1/t51.2885-15/11005233_1387122404937847_746701829_n.jpg" },
   { title: "mint", url: "https://igcdn-photos-h-a.akamaihd.net/hphotos-ak-xaf1/t51.2885-15/11005122_403944089779711_82071826_n.jpg" },
-  { title: "sun", url: "https://igcdn-photos-e-a.akamaihd.net/hphotos-ak-xaf1/t51.2885-15/10983603_463941597092988_1681238831_n.jpg" },
+  { title: "sun", url: "https://igcdn-photos-e-a.akamaihd.net/hphotos-ak-xaf1/t51.2885-15/10983603_463941597092988_1681238831_n.jpg" }
 ]
 
 class App < Sinatra::Base
 
+  enable :sessions
+
   before do
+    puts "==> Entering request"
+    @background_image = JASPER.map { |hash| hash[:url] if hash[:title] == "background-image" }.compact.first
     @user = "Chris"
+    @weight = session[:weight]
   end
 
   before /images/ do
     @message = "Jasper is pretty"
+  end
+
+  after do
+    puts "<== Leaving request"
   end
 
   get '/images' do
@@ -28,6 +39,15 @@ class App < Sinatra::Base
     index = index.to_i
     @image = JASPER[index]
     erb :"/images/show", layout: true
+  end
+
+  get '/sessions/new' do
+    erb :"/sessions/new", layout: true
+  end
+
+  post '/sessions' do
+    session[:weight] = params[:weight]
+    redirect '/images'
   end
 
   get '/' do

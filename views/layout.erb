@@ -4,11 +4,16 @@
     <meta charset="utf-8" />
     <title>Exhibit</title>
   </head>
-  <body>
+  <body background="<%= @background_image %>">
+    <p><a href='/'>Home</a></p>
+    <h1 style="color: #9900CC">Welcome to Jasper's fashion show</h1>
     <% if @message %>
       <h1><%= @message %></h1>
     <% end %>
-    <p> The current users is <%= @user %> </p>
+    <p> The current user is <%= @user %> </p>
+    <% if @weight %>
+      <p> Last guess for Jasper's weight: <%= @weight %> lbs </p>
+    <% end %>
     <%= yield %>
   </body>
 </html>

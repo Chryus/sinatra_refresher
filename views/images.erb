@@ -1,6 +1,6 @@
 <% @images.each_with_index do |image, index| %>
   <h3><%= image[:title] %></h3>
   <a href="/images/<%=index%>">
-    <img src="<%= image[:url] %>" width=100%></img>
+    <img src="<%= image[:url] %>" width=50%></img>
   </a>
 <% end %>
