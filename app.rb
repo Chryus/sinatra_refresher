@@ -1,5 +1,5 @@
-require "sinatra"
-require "byebug"
+require "sinatra", github: "sinatra/sinatra"
+require "pry-byebug"
 require "awesome_print"
 require "json"
 
@@ -13,10 +13,9 @@ JASPER = [
 
 class App < Sinatra::Base
 
-  enable :sessions
+  enable :sessions, :logging
 
   before do
-    puts "==> Entering request"
     @background_image = JASPER.map { |hash| hash[:url] if hash[:title] == "background-image" }.compact.first
     @user = "Chris"
     @weight = session[:weight]
@@ -27,7 +26,7 @@ class App < Sinatra::Base
   end
 
   after do
-    puts "<== Leaving request"
+    logger.info "<== Leaving request"
   end
 
   get '/images' do

@@ -2,5 +2,5 @@ source "https://rubygems.org"
 
 gem "sinatra"
 gem "thin"
-gem "byebug"
+gem "pry-byebug"
 gem "awesome_print"
