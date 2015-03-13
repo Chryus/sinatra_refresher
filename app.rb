@@ -34,10 +34,16 @@ class App < Sinatra::Base
     erb :images, layout: true
   end
 
-  get '/images/:index' do |index|
+  get '/images/:index.?:format?' do |index, format|
     index = index.to_i
     @image = JASPER[index]
-    erb :"/images/show", layout: true
+
+    if format == "jpg"
+      content_type :jpg
+      send_file "images/#{index}.jpg"
+    else
+      erb :"/images/show", layout: true
+    end
   end
 
   get '/sessions/new' do
