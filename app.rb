@@ -1,4 +1,4 @@
-require "sinatra", github: "sinatra/sinatra"
+require "sinatra"
 require "pry-byebug"
 require "awesome_print"
 require "json"

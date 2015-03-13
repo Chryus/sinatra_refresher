@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-gem "sinatra"
+gem "sinatra", github: "sinatra/sinatra"
 gem "thin"
 gem "pry-byebug"
 gem "awesome_print"
