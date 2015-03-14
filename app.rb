@@ -5,10 +5,10 @@ require "json"
 
 
 JASPER = [
-  { title: "background-image", url: "https://igcdn-photos-h-a.akamaihd.net/hphotos-ak-xaf1/t51.2885-15/11055462_513059302165903_1753383686_n.jpg"},
-  { title: "boxes", url: "https://igcdn-photos-h-a.akamaihd.net/hphotos-ak-xaf1/t51.2885-15/11005233_1387122404937847_746701829_n.jpg" },
-  { title: "mint", url: "https://igcdn-photos-h-a.akamaihd.net/hphotos-ak-xaf1/t51.2885-15/11005122_403944089779711_82071826_n.jpg" },
-  { title: "sun", url: "https://igcdn-photos-e-a.akamaihd.net/hphotos-ak-xaf1/t51.2885-15/10983603_463941597092988_1681238831_n.jpg" }
+  { title: "background-image", url: "/images/0.jpg"},
+  { title: "boxes", url: "/images/1.jpg" },
+  { title: "mint", url: "/images/2.jpg" },
+  { title: "sun", url: "/images/3.jpg" }
 ]
 
 class App < Sinatra::Base
@@ -19,6 +19,7 @@ class App < Sinatra::Base
     @background_image = JASPER.map { |hash| hash[:url] if hash[:title] == "background-image" }.compact.first
     @user = "Chris"
     @weight = session[:weight]
+    @environment = settings.environment
   end
 
   before /images/ do
@@ -34,13 +35,19 @@ class App < Sinatra::Base
     erb :images, layout: true
   end
 
-  get '/images/:index.?:format?' do |index, format|
-    index = index.to_i
-    @image = JASPER[index]
+  get '/images/:index/download' do |index|
+    @image = JASPER[index.to_i]
 
+    attachment @image[:title]
+    send_file "images/#{index}.jpg" 
+  end
+
+  get '/images/:index.?:format?' do |index, format|
+    @index = index.to_i
+    @image = JASPER[@index]
     if format == "jpg"
       content_type :jpg
-      send_file "images/#{index}.jpg"
+      send_file "images/#{@index}.jpg"
     else
       erb :"/images/show", layout: true
     end
